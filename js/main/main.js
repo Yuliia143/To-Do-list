@@ -12,23 +12,9 @@ const startText = document.querySelector('.to-do__start');
 const modalDelete = document.querySelector('.modal__content__delete');
 const modalDeleteClose = document.querySelector('.modal__delete--no');
 const modalDeleteYes = document.querySelector('.modal__delete--yes');
-const modalActiveClassName = "modal__content--show";
+const modalActiveClassName = 'modal__content--show';
 
-
-function createElement(tag, props, ...children) {
-    const element = document.createElement(tag);
-    Object.keys(props).forEach(key => element[key] = props[key]);
-    if (children.length > 0) {
-        children.forEach(child => {
-            if (typeof child === 'string') {
-                child = document.createTextNode(child)
-            }
-            element.appendChild(child)
-        })
-
-    }
-    return element;
-}
+import {createElement} from '../utils/functionCreateElement.js';
 
 function addTask() {
     let inputValue = modalInputTask.value;
@@ -50,7 +36,6 @@ function addTask() {
     bindEvents(newTaskElement);
 
     return newTaskElement;
-
 }
 
 function bindEvents(todoItem) {
@@ -67,13 +52,13 @@ function bindEvents(todoItem) {
     removeButton.addEventListener(`click`, removeTask);
 }
 
-
 buttonOpenModal.addEventListener('click',function () {
     modalAdd.classList.add('modal__content--show');
     overlay.classList.add('modal__overlay--show');
     modalInputTask.focus();
 
 });
+
 overlay.addEventListener('click',function () {
     modalAdd.classList.remove('modal__content--show');
     modalDelete.classList.remove('modal__content--show');
@@ -87,8 +72,7 @@ addNewTask.addEventListener('click', function () {
                 modalAdd.classList.remove('modal__content--error');
             });
         modalInputTask.focus();
-    }
-    else {
+    } else {
         startText.style.display = 'none';
         addTask();
         modalInputTask.value = '';
@@ -96,6 +80,7 @@ addNewTask.addEventListener('click', function () {
         overlay.classList.remove('modal__overlay--show');
     }
 });
+
 document.addEventListener('keydown', function (e) {
     if (e.keyCode === 13) {
         if (!modalInputTask.value) {
@@ -104,8 +89,7 @@ document.addEventListener('keydown', function (e) {
                 modalAdd.classList.remove('modal__content--error');
             });
             modalInputTask.focus();
-        }
-        else {
+        } else {
             startText.style.display = 'none';
             addTask();
             modalInputTask.value = '';
@@ -114,6 +98,7 @@ document.addEventListener('keydown', function (e) {
         }
     }
 });
+
 document.addEventListener('keydown', function (e) {
     if (e.keyCode === 27) {
         modalAdd.classList.remove('modal__content--show');
@@ -121,8 +106,6 @@ document.addEventListener('keydown', function (e) {
         overlay.classList.remove('modal__overlay--show');
     }
 });
-
-
 
 function done(e) {
     let listItem = e.target.closest('LI');
@@ -134,8 +117,7 @@ function done(e) {
     let editBtn = listItem.querySelector('.to-do__edit');
     if(listItem.classList.contains('to-do__task--done')){
         editBtn.style.display = 'none';
-    }
-    else {
+    } else {
         editBtn.style.display = 'block';
     }
 }
@@ -175,10 +157,6 @@ function removeTask() {
         modalDelete.classList.remove(modalActiveClassName);
         overlay.classList.remove('modal__overlay--show');
     };
-
-    modalDeleteYes.addEventListener('transitionend', function () {
-        console.log('end');
-    });
     modalDeleteYes.onclick = () => {
         listOfTasks.removeChild(item);
         modalDelete.classList.remove(modalActiveClassName);
@@ -186,19 +164,5 @@ function removeTask() {
         if (listOfTasks.childNodes.length === 0) {
             startText.style.display = 'block';
         }
-    };
+    }
 }
-
-
-// function toLocale() {
-//     let toDo;
-//     toDo = listOfTasks.innerHTML;
-//     localStorage.setItem('toDo', toDo);
-// }
-//
-// if(localStorage.getItem('toDo')){
-//     listOfTasks.innerHTML = localStorage.getItem('toDo');
-// }
-
-
-
