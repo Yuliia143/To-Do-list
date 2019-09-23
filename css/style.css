@@ -22,31 +22,30 @@ body{
 
     position: relative;
 }
-.puzzle1,.puzzle2{
+.TwoDetailsPuzzle,.ThreeDetailsPuzzle{
     position: absolute;
-    width: 45px;
-    height: 45px;
+    width: 70px;
+    height: 70px;
     transition: all 0.5s ease;
 }
-.puzzle1{
-    bottom: 13px;
-    left: 13px;
-    transform: rotate(222deg);
+.ThreeDetailsPuzzle{
+    bottom: 15px;
+    left: 15px;
+    transform: rotate(210deg);
 }
-.puzzle2{
-    right: 10px;
-    top: 10px;
+.TwoDetailsPuzzle{
+    right: 15px;
+    top: 15px;
 }
-.puzzle1:hover, .puzzle2:hover{
+.TwoDetailsPuzzle:hover, .ThreeDetailsPuzzle:hover{
     transform: rotate(360deg);
     fill: #794ca2;
 }
 .to-do__name{
-    font-size: 3.5em;
+    font-size: 4em;
     text-align: center;
     color: dimgray;
     text-shadow: 2px 3px 0 rgb(214, 208, 181);
-
     margin: 50px 0 20px;
 }
 .to-do__start{
@@ -77,26 +76,28 @@ body{
 }
 .to-do__task{
     font-family: 'Courgette', cursive;
+    font-size: 1.5em;
     background: transparent;
     border: none;
     margin: 0;
 }
 .to-do__possibility{
     display: flex;
-    margin-top: -6.5%;
+    margin-top: -10px;
 }
 .to-do__edit, .to-do__delete{
     background: transparent;
     border: none;
     padding: 0;
+    outline: none;
 }
 .to-do__item svg{
-    width: 30px;
-    height: 20px;
+    width: 35px;
+    height: 25px;
 }
 .to-do__item svg:hover{
     fill: rgb(146, 120, 150);
-    transform: scale(1.5);
+    transform: scale(1.3);
 }
 .to-do__task--done  .to-do__task{
     text-decoration: line-through;
@@ -109,16 +110,16 @@ body{
 }
 .item__checkbox input[type="checkbox"] + .checkbox-indicator {
     position: absolute;
-    top: 31%;
+    top: 50%;
+    transform: translateY(-50%);
 
-    width: 21px;
-    height: 21px;
+    width: 25px;
+    height: 25px;
 
     box-sizing: border-box;
     border: 1px solid #d6d6d6;
     border-radius: 15%;
 }
-
 .checkbox-indicator--active::before {
     content: "";
     position: absolute;
@@ -134,7 +135,7 @@ body{
 }
 .to-do__add{
     position: absolute;
-    bottom: -36px;
+    bottom: -5%;
     left: 50%;
     transform: translateX(-50%);
 
@@ -145,7 +146,6 @@ body{
     border-radius: 50%;
     border: none;
 }
-
 .to-do__add::before, .to-do__add::after {
     content: "";
     position: absolute;
@@ -160,77 +160,74 @@ body{
 .to-do__add:before{
     transform: rotate(90deg);
 }
-.modal__content__add{
+.modal{
+    width: 250px;
     visibility: hidden;
     position: fixed;
     z-index: 2;
     background-color: white;
-    border-radius: 5%;
     box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+.modal__newTask{
+    border-radius: 5%;
 }
 .modal__title{
     text-align: center;
     text-shadow: 2px 3px 0 rgb(214, 208, 181);
-}
-.input__label{
-    display: inline-block;
-    text-align: center;
+    font-size: 2em;
 }
 .modal__input{
-    max-width: 80%;
+    display: block;
     margin: 0 auto;
+    padding: 3%;
 }
 .modal__add{
     display: block;
-    width: 70%;
+    width: 80%;
     margin: 10% auto;
-    padding: 2%;
+    padding: 4%;
 
     color: rgba(30, 22, 54, 0.6);
     background-color: transparent;
     border: none;
     box-shadow: rgb(121, 76, 162) 0 0px 0px 1px inset;
 }
-.modal__add:hover{
+.modal__button:hover{
     color: rgba(255, 255, 255, 0.85);
     box-shadow: rgb(121, 76, 162) 0 0px 0px 40px inset;
     transition: all 0.4s cubic-bezier(0.390, 0.500, 0.150, 1.360);
 }
+.modal__button--transitionEnd:hover{
+    transition: none;
+}
 .modal__clip{
     position: absolute;
     top: -9px;
-    left: -9px;
+    left: -12px;
 
-    width: 33px;
-    height: 33px;
+    width: 40px;
+    height: 40px;
 }
-.modal__content__delete{
-    visibility: hidden;
-    position: fixed;
-    z-index: 2;
-    background-color: white;
+.modal__deleteTask{
     border-radius: 7%;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
     padding: 0 2%;
 }
-.modal__delete__buttons{
+.modal__warning{
+    font-size: 1.3em;
+    text-align: center;
+}
+.modal__delete{
     margin: 10% 0;
-
     display: flex;
     justify-content: space-around;
 }
-.modal__delete--yes, .modal__delete--no{
+.delete--yes, .delete--no{
     width: 40%;
     padding: 2%;
     background: transparent;
     border: none;
     color: rgba(30, 22, 54, 0.6);
     box-shadow: rgb(121, 76, 162) 0 0 0 1px inset;
-}
-.modal__delete--yes:hover, .modal__delete--no:hover{
-    color: rgba(255, 255, 255, 0.85);
-    box-shadow: rgb(121, 76, 162) 0 0 0 40px inset;
-    transition: all 0.4s cubic-bezier(0.390, 0.500, 0.150, 1.360);
 }
 .modal__content--show{
     display: block;
@@ -257,26 +254,21 @@ body{
     0% {
         transform: translateY(-2000px);
     }
-
     70% {
         transform: translateY(30px);
     }
-
     90% {
         transform: translateY(-10px);
     }
-
     100% {
         transform: translateY(0);
     }
 }
 @keyframes shake {
-
     0%,
     100% {
         transform: translateX(0);
     }
-
     10%,
     30%,
     50%,
@@ -284,7 +276,6 @@ body{
     90% {
         transform: translateX(-10px);
     }
-
     20%,
     40%,
     60%,
