@@ -19,14 +19,9 @@ const buttonTransitionEndClassName = 'modal__button--transitionEnd';
 
 import {createElement} from '../utils/functionCreateElement.js';
 
-function openModal(modal) {
-    modal.classList.add(modalActiveClassName);
-    overlay.classList.add(overlayActiveClassName);
-}
-
-function closeModal(modal) {
-    modal.classList.remove(modalActiveClassName);
-    overlay.classList.remove(overlayActiveClassName);
+function toggleModal(modal) {
+    modal.classList.toggle(modalActiveClassName);
+    overlay.classList.toggle(overlayActiveClassName);
 }
 
 function addTask() {
@@ -101,19 +96,19 @@ function editTask() {
 
 function removeTask() {
     const item = this.parentNode.parentNode;
-    openModal(modalDelete);
+    toggleModal(modalDelete);
     modalDeleteClose.onclick = () => {
-        closeModal(modalDelete);
+        toggleModal(modalDelete);
         modalDeleteClose.classList.add(buttonTransitionEndClassName);
     };
     modalDeleteYes.onclick = () => {
         listOfTasks.removeChild(item);
-        closeModal(modalDelete);
+        toggleModal(modalDelete);
         modalDeleteYes.classList.add(buttonTransitionEndClassName);
         if (listOfTasks.childNodes.length === 0) {
             startText.style.display = 'block';
         }
-    }
+    };
 }
 
 function bindEvents(todoItem) {
@@ -131,13 +126,13 @@ function bindEvents(todoItem) {
 }
 
 buttonOpenModal.addEventListener('click', function () {
-    openModal(modalAdd);
+    toggleModal(modalAdd);
     modalInputTask.focus();
 });
 
 overlay.addEventListener('click', function () {
     const activeModal = document.querySelector('.modal__content--show');
-    closeModal(activeModal);
+    toggleModal(activeModal);
 });
 
 addNewTask.addEventListener('click', function () {
@@ -151,7 +146,7 @@ addNewTask.addEventListener('click', function () {
         startText.style.display = 'none';
         addTask();
         modalInputTask.value = '';
-        closeModal(modalAdd);
+        toggleModal(modalAdd);
         addNewTask.classList.add(buttonTransitionEndClassName);
     }
 });
@@ -168,12 +163,10 @@ document.addEventListener('keydown', function (e) {
             startText.style.display = 'none';
             addTask();
             modalInputTask.value = '';
-            closeModal(modalAdd);
+            toggleModal(modalAdd);
         }
     } else if (e.keyCode === 27) {
         const activeModal = document.querySelector('.modal__content--show');
-        closeModal(activeModal);
+        toggleModal(activeModal);
     }
 });
-
-
