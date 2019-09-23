@@ -19,6 +19,16 @@ const buttonTransitionEndClassName = 'modal__button--transitionEnd';
 
 import {createElement} from '../utils/functionCreateElement.js';
 
+function openModal(modal) {
+    modal.classList.add(modalActiveClassName);
+    overlay.classList.add(overlayActiveClassName);
+}
+
+function closeModal(modal) {
+    modal.classList.remove(modalActiveClassName);
+    overlay.classList.remove(overlayActiveClassName);
+}
+
 function addTask() {
     let inputValue = modalInputTask.value;
     let elementTask = createElement('textarea', {className: 'to-do__task', value: inputValue, disabled: "disabled"});
@@ -91,17 +101,14 @@ function editTask() {
 
 function removeTask() {
     const item = this.parentNode.parentNode;
-    modalDelete.classList.add(modalActiveClassName);
-    overlay.classList.add(overlayActiveClassName);
+    openModal(modalDelete);
     modalDeleteClose.onclick = () => {
-        modalDelete.classList.remove(modalActiveClassName);
-        overlay.classList.remove(overlayActiveClassName);
+        closeModal(modalDelete);
         modalDeleteClose.classList.add(buttonTransitionEndClassName);
     };
     modalDeleteYes.onclick = () => {
         listOfTasks.removeChild(item);
-        modalDelete.classList.remove(modalActiveClassName);
-        overlay.classList.remove(overlayActiveClassName);
+        closeModal(modalDelete);
         modalDeleteYes.classList.add(buttonTransitionEndClassName);
         if (listOfTasks.childNodes.length === 0) {
             startText.style.display = 'block';
@@ -124,15 +131,13 @@ function bindEvents(todoItem) {
 }
 
 buttonOpenModal.addEventListener('click', function () {
-    modalAdd.classList.add(modalActiveClassName);
-    overlay.classList.add(overlayActiveClassName);
+    openModal(modalAdd);
     modalInputTask.focus();
 });
 
 overlay.addEventListener('click', function () {
-    modalAdd.classList.remove(modalActiveClassName);
-    modalDelete.classList.remove(modalActiveClassName);
-    overlay.classList.remove(overlayActiveClassName);
+    const activeModal = document.querySelector('.modal__content--show');
+    closeModal(activeModal);
 });
 
 addNewTask.addEventListener('click', function () {
@@ -146,8 +151,7 @@ addNewTask.addEventListener('click', function () {
         startText.style.display = 'none';
         addTask();
         modalInputTask.value = '';
-        modalAdd.classList.remove(modalActiveClassName);
-        overlay.classList.remove(overlayActiveClassName);
+        closeModal(modalAdd);
         addNewTask.classList.add(buttonTransitionEndClassName);
     }
 });
@@ -164,13 +168,11 @@ document.addEventListener('keydown', function (e) {
             startText.style.display = 'none';
             addTask();
             modalInputTask.value = '';
-            modalAdd.classList.remove(modalActiveClassName);
-            overlay.classList.remove(overlayActiveClassName);
+            closeModal(modalAdd);
         }
     } else if (e.keyCode === 27) {
-        modalAdd.classList.remove(modalActiveClassName);
-        modalDelete.classList.remove(modalActiveClassName);
-        overlay.classList.remove(overlayActiveClassName);
+        const activeModal = document.querySelector('.modal__content--show');
+        closeModal(activeModal);
     }
 });
 
