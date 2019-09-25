@@ -24,6 +24,13 @@ function toggleModal(modal) {
     overlay.classList.toggle(overlayActiveClassName);
 }
 
+function errorModal(modal) {
+    modal.classList.add(modalErrorClassName);
+    modal.addEventListener('animationend', function () {
+        modal.classList.remove(modalErrorClassName);
+    });
+}
+
 function addTask() {
     let inputValue = modalInputTask.value;
     let elementTask = createElement('textarea', {className: 'to-do__task', value: inputValue, disabled: "disabled"});
@@ -137,10 +144,7 @@ overlay.addEventListener('click', function () {
 
 addNewTask.addEventListener('click', function () {
     if (!modalInputTask.value) {
-        modalAdd.classList.add(modalErrorClassName);
-        modalAdd.addEventListener('animationend', function () {
-            modalAdd.classList.remove(modalErrorClassName);
-        });
+        errorModal(modalAdd);
         modalInputTask.focus();
     } else {
         startText.style.display = 'none';
@@ -154,10 +158,7 @@ addNewTask.addEventListener('click', function () {
 document.addEventListener('keydown', function (e) {
     if (e.keyCode === 13) {
         if (!modalInputTask.value) {
-            modalAdd.classList.add(modalErrorClassName);
-            modalAdd.addEventListener('animationend', function () {
-                modalAdd.classList.remove(modalErrorClassName);
-            });
+            errorModal(modalAdd);
             modalInputTask.focus();
         } else {
             startText.style.display = 'none';
